@@ -9,3 +9,11 @@ export type addItemObjType = {
   value:number;
   quantity:number;
 }
+
+export type mapItemsObj = {
+  list: listItems[];
+  itemName: string;
+  value: number;
+  quantity: number;
+  operation: (a: number, b: number) => number;
+}

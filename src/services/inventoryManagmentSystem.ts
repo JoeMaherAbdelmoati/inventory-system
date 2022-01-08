@@ -1,9 +1,14 @@
-import {
-  inventoryManagementSystem,
-} from '@/interfaces/inventoryManagmentSystem.interface';
 import { addItemObjType, listItems } from '@/types';
+import {
+  add,
+  addItem,
+  filter,
+  findOne,
+  sub,
+  updateQuantity,
+} from '@/utilities/invintoryList.utility';
 
-const addItem = (obj:addItemObjType):listItems[] => {
+export const addOrReturnItem = (obj: addItemObjType): listItems[] => {
   const {
     list,
     itemName,
@@ -12,58 +17,36 @@ const addItem = (obj:addItemObjType):listItems[] => {
   } = obj;
 
   let listOfItems = [...list];
-  const callback = (item:listItems) => item.itemName === itemName && item.value === value;
-  const itemOfInventory = listOfItems.find(callback);
+
+  const itemOfInventory = findOne(list, itemName, value);
 
   if (!itemOfInventory || itemOfInventory.value !== value) {
-    listOfItems.push({ itemName, value, quantity });
+    listOfItems = addItem(list, { itemName, value, quantity });
   } else {
-    listOfItems = listOfItems.map((item) => {
-      if (item.itemName === itemName && item.value === value) {
-        item.quantity += quantity;
-      }
-      return item;
+    listOfItems = updateQuantity({
+      list, itemName, value, quantity, operation: add,
     });
   }
   return listOfItems;
 };
+export const removeItem = (obj: addItemObjType): listItems[] => {
+  const { list, quantity, itemName } = obj;
 
-export default class InventoryManagementSystem implements inventoryManagementSystem {
-  list: listItems[];
-
-  constructor(items?: listItems[]) {
-    this.list = items ? [...items] : [];
+  const itemOfInventory = findOne(list, itemName);
+  if (!itemOfInventory) {
+    throw new Error('item is not found');
   }
-
-  addItem(itemName: string, quantity: number, value: number):void {
-    this.list = addItem({
-      list: this.list, itemName, value, quantity,
+  let listOfItems = list;
+  if (itemOfInventory.quantity === quantity) {
+    listOfItems = filter(list, itemName, itemOfInventory.value);
+  } else {
+    listOfItems = updateQuantity({
+      list,
+      itemName,
+      value: itemOfInventory.value,
+      quantity,
+      operation: sub,
     });
   }
-
-  removeItem(itemName: string, quantity: number):void{
-    const callbackFun = (item:listItems) => item.itemName === itemName && item.quantity >= quantity;
-    const itemOfInventory = this.list.find(callbackFun);
-
-    if (!itemOfInventory) {
-      throw new Error('item is not found');
-    }
-    if (itemOfInventory.quantity === quantity) {
-      const callback = (item:listItems) => item.itemName !== itemName || item.quantity !== quantity;
-      this.list = this.list.filter(callback);
-    } else {
-      this.list = this.list.map((item) => {
-        if (item.itemName === itemName && item.quantity >= quantity) {
-          item.quantity -= quantity;
-        }
-        return item;
-      });
-    }
-  }
-
-  returnItem(itemName: string, quantity: number, value: number) :void{
-    this.list = addItem({
-      list: this.list, itemName, value, quantity,
-    });
-  }
-}
+  return listOfItems;
+};
