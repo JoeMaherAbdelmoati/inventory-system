@@ -6,21 +6,21 @@ import { listItems } from '@/types';
 import { addOrReturnItem, removeItem } from '@/services/inventoryManagmentSystem';
 
 export const actions = {
-  [ADD_ITEM](context: contextType, data: listItems) {
+  [ADD_ITEM](context: contextType, data: listItems):void {
     const newList = addOrReturnItem({
       list: context.state.inventoryListItems,
       ...data,
     });
     context.commit(UPDATE_INVENTORY, newList);
   },
-  [REMOVE_ITEM](context: contextType, data: listItems) {
+  [REMOVE_ITEM](context: contextType, data: listItems):void {
     const newList = removeItem({
       list: context.state.inventoryListItems,
       ...data,
     });
     context.commit(UPDATE_INVENTORY, newList);
   },
-  [RETURN_ITEM](context: contextType, data: listItems) {
+  [RETURN_ITEM](context: contextType, data: listItems):void {
     const newList = addOrReturnItem({
       list: context.state.inventoryListItems,
       ...data,

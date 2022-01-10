@@ -8,9 +8,10 @@ export const findOne = (list: listItems[],
   }
   return list.find((item) => item.itemName === itemName);
 };
-
-export const filter = (list: listItems[], itemName: string, value: number):listItems[]
-=> list.filter((item) => item.itemName !== itemName || item.value !== value);
+// eslint-disable-next-line arrow-body-style
+export const filter = (list: listItems[], itemName: string, value: number):listItems[] => {
+  return list.filter((item) => item.itemName !== itemName || item.value !== value);
+};
 
 export const updateQuantity = (params: mapItemsObj):listItems[] => {
   const {
