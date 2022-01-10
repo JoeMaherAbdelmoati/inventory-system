@@ -49,6 +49,7 @@ export default class ActionForm extends Vue {
         @Prop() private handleAction!: (data:listItems)=>Promise<void>;
 
         @Prop(Boolean) private showValue!: boolean;
+
         // TODO: use form validation package like vee-validate or Vuelidate
         itemName='';
 
