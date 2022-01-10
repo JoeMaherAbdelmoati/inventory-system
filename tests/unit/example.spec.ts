@@ -92,3 +92,6 @@ describe('Store actions', () => {
     }
   });
 });
+// TODO: add some test cases for validate forms like:
+//  see inventory list empty.
+//  see number of fields in add and remove item pages
