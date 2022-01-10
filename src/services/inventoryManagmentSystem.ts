@@ -36,6 +36,9 @@ export const removeItem = (obj: addItemObjType): listItems[] => {
   if (!itemOfInventory) {
     throw new Error('item is not found');
   }
+  if (itemOfInventory.quantity < quantity) {
+    throw new Error(`item quantity larger than purchase, max is ${itemOfInventory.quantity}`);
+  }
   let listOfItems = list;
   if (itemOfInventory.quantity === quantity) {
     listOfItems = filter(list, itemName, itemOfInventory.value);
