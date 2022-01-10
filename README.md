@@ -27,3 +27,7 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+### Deployed link
+[Click here](https://elegant-panini-4ed437.netlify.app)
+<br/>
+if it not working you can connect with [proxy](https://www.proxysite.com/) 
