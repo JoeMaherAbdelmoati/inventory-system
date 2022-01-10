@@ -1,14 +1,16 @@
 <template>
   <div class="home">
-    <h1>Home Under construction</h1>
+    <InventoryList/>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import InventoryList from '@/components/InventoryList.vue';
 
 @Component({
   components: {
+    InventoryList,
   },
 })
 export default class Home extends Vue {}
